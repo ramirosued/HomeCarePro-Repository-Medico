@@ -11,7 +11,7 @@ export default function Caso() {
   useEffect(() => {
     async function fetchCaso() {
       try {
-        const response = await fetch(`http://localhost:5000/medico/${1}`); // Asegúrate de usar params.casoId si es necesario
+        const response = await fetch(`http://localhost:5000/medico/4/devolucion`); // Asegúrate de usar params.casoId si es necesario
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -30,10 +30,8 @@ export default function Caso() {
     <main>
       <div>            
         <>          
-        {medico.map((medico)=>(
             
         <h1>sss</h1>
-        ))}
         </>            
       </div>
     </main>
