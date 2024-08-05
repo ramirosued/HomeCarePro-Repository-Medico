@@ -21,6 +21,11 @@ export default function Devolucion(){
         }
         fetchDevoluciones();
     }, []);
+
+    const handleSubmit = async(e)=>{
+      const response = await fetch(`http://localhost:5000/medico/${params.medicoId}/devolucion`);      
+    
+    }
     
 return(
     <>
@@ -32,7 +37,7 @@ return(
     )
     )}
     </ul>
-    <form id="devolucionForm" >
+    <form id="devolucionForm" onSubmit={handleSubmit}>
                 <label >Descripción:</label>
                 <input
                     type="text"
