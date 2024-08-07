@@ -1,39 +1,63 @@
 "use client";
-import { useParams } from "next/navigation";
-import { useState,useEffect } from "react";
+import { useParams,useRouter  } from "next/navigation";
+import { useState, useEffect } from "react";
 
-export default function Devolucion(){
+export default function Devolucion() {
     const params = useParams();
+    const router = useRouter(); // Importa useRouter para la redirección
+
     const [devoluciones, setDevoluciones] = useState([]);
     console.log(params);
+
     useEffect(() => {
         async function fetchDevoluciones() {
-        try {
-            const response = await fetch(`http://localhost:5000/casos/${params.medicoId}/devolucion`);
-            if (!response.ok) {
-            throw new Error("Error al obtener los datos");
+            try {
+                const response = await fetch(`http://localhost:5000/casos/${params.medicoId}/devolucion`);
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos");
+                }
+                const data = await response.json();
+                setDevoluciones(data);
+            } catch (error) {
+                console.error("Error al obtener los casos:", error);
             }
-            const data = await response.json();
-            setDevoluciones(data);
-        } catch (error) {
-            console.error("Error al obtener los casos:", error);
-        }
         }
         fetchDevoluciones();
-    }, []);
-    
-return(
-    <>
-    <h1>Devoluciones anteriores</h1>
-    <ul>
-    {devoluciones.map((devolucion)=>(
-    <li> {devolucion.Descripcion} / {devolucion.Fecha}</li>
+    }, [params.medicoId]);
 
-    )
-    )}
-    </ul>
-    <form id="devolucionForm" >
-                <label >Descripción:</label>
+    const handleSubmit = async (e) => {
+    
+        const descripcion = e.target.descripcion.value; // Obtener el valor de la descripción
+    
+        const response = await fetch(`http://localhost:5000/medico/${params.medicoId}/devolucionn`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ descripcion }) // Enviar la descripción en el cuerpo de la solicitud
+        });
+    
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result);
+        } else {
+            console.error('Error en la solicitud:', response.statusText);
+        }
+    };
+    
+
+    return (
+        <>
+            <h1>Devoluciones anteriores</h1>
+            <ul>
+                {devoluciones.map((devolucion) => (
+                    <li key={devolucion.id}> {/* Asegúrate de que `devolucion.id` es único */}
+                        {devolucion.Descripcion} / {devolucion.Fecha}
+                    </li>
+                ))}
+            </ul>
+            <form id="devolucionForm" onSubmit={handleSubmit}>
+                <label>Descripción:</label>
                 <input
                     type="text"
                     id="descripcion"
@@ -42,7 +66,7 @@ return(
                 />
                 
                 <input type="submit" value="Agregar Devolución" />
-    </form>
-    </>
-)
+            </form>
+        </>
+    );
 }
