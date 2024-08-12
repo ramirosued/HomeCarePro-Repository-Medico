@@ -1,0 +1,17 @@
+@media screen and (max-width: 430px){
+ 
+    .titulo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: blue;
+        margin-bottom: 30px;
+    }
+    .linkInicio{
+        margin: 40px;
+        text-decoration: none;
+
+    }
+
+  
+}

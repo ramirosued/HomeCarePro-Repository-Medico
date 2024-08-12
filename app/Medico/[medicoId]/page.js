@@ -4,15 +4,16 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from './medico.module.css'; // Asegúrate de importar el CSS Module
 
-
 export default function Caso() {
-  const [medico, setMedico] = useState([]); // Inicializa con null o un objeto vacío
+  const [medico, setMedico] = useState([]); // Inicializa con un arreglo vacío
+  const [selectedPatientId, setSelectedPatientId] = useState(null); // ID del paciente seleccionado
+
   const params = useParams();
 
   useEffect(() => {
     async function fetchCaso() {
       try {
-        const response = await fetch(`http://localhost:5000/medico/${2}`); // Asegúrate de usar params.casoId si es necesario
+        const response = await fetch(`http://localhost:5000/medico/${params.medicoId}`); // Asegúrate de usar params.casoId si es necesario
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -26,32 +27,40 @@ export default function Caso() {
     }
     fetchCaso();
   }, []); 
+  
+  const toggleInfo = (id) => {
+    setSelectedPatientId(prevId => (prevId === id ? null : id)); // Cambia el estado si el ID es diferente; oculta si es el mismo
+  console.log(id)
+  };
 
   return (
     <main>
       <div>
-        <h1>Bienvenido {medico.NombrePrestador}</h1>
-            
-        <>          
-        {medico.map((medico)=>(
-            <div key={medico.IdPaciente} className={styles.listaCasosActivos}>
-                <h5>DNI Paciente: {medico.Dni}</h5>
-                <h5>Nombre Paciente: {medico.Nombre}</h5>
-                <h5>Apellido Paciente: {medico.Apellido}</h5>
-                <h5>Direccion Paciente: {medico.Direccion}</h5>
-                <h5>Localidad Paciente: {medico.Localidad}</h5>
-                <h5>Telefono Paciente: {medico.Telefono}</h5>
-                <h5>Fecha Nacimiento Paciente: {medico.FechaNacimiento}</h5>
-                <h5>Diagnostico Paciente: {medico.Diagnostico}</h5>
-                <h5>Cantidad de dias del caso: {medico.CantDias}</h5>
-                <h5>Cantidad de horas por dia del caso: {medico.CantHorasDias}</h5>
-                <Link href={`/Medico/${medico.IdCaso}/devolucion/`}>Dar Devolucion</Link>
-
+        <h1 className={styles.titulo}>Casos</h1>
+        <div>
+          {medico.map((item) => (
+            <div key={item.IdPaciente} className={styles.listaCasosActivos}>
+                <h5>Nombre Paciente: {item.Nombre}</h5>
+              <h5>Apellido Paciente: {item.Apellido}</h5>
+              <h5>Direccion Paciente: {item.Direccion}</h5>
+              
+              <Link href={`/Medico/${item.IdCaso}/devolucion/`}>Dar Devolución</Link>
+              <button onClick={() => toggleInfo(item.IdPaciente)}>Más info</button>
+              
+              {selectedPatientId === item.IdPaciente && (
+                <div className={styles.masInfo}>
+                  <h5>Localidad Paciente: {item.Localidad}</h5>
+                  <h5>Telefono Paciente: {item.Telefono}</h5>
+                  <h5>Fecha Nacimiento Paciente: {item.FechaNacimiento}</h5>
+                  <h5>Diagnostico Paciente: {item.Diagnostico}</h5>
+                  <h5>Cantidad de días del caso: {item.CantDias}</h5>
+                  <h5>Cantidad de horas por día del caso: {item.CantHorasDias}</h5>
+                </div>
+              )}
             </div>
-        ))}
-        </>            
+          ))}
+        </div>            
       </div>
     </main>
-    
   );
 }

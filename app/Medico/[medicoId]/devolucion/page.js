@@ -1,4 +1,5 @@
 "use client";
+import style from "./devolucion.css"
 import { useParams,useRouter  } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -49,22 +50,30 @@ export default function Devolucion() {
     return (
         <>
             <h1>Devoluciones anteriores</h1>
-            <ul>
-                {devoluciones.map((devolucion) => (
-                    <li key={devolucion.id}> {/* Asegúrate de que `devolucion.id` es único */}
-                        {devolucion.Descripcion} / {devolucion.Fecha}
-                    </li>
-                ))}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Devolución</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {devoluciones.map((devolucion) => (
+                        <tr key={devolucion.id}>
+                            <td>{devolucion.Descripcion}</td>
+                            <td>{devolucion.Fecha}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
             <form id="devolucionForm" onSubmit={handleSubmit}>
-                <label>Descripción:</label>
+                <label htmlFor="descripcion">Descripción:</label>
                 <input
                     type="text"
                     id="descripcion"
                     name="descripcion"
                     required
                 />
-                
                 <input type="submit" value="Agregar Devolución" />
             </form>
         </>
