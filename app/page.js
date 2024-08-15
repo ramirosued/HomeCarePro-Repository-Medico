@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="paginaInicio">
       <h1 className="titulo">Bienvenido </h1>
-      <Link className="linkInicio" href={`/Medico/${1}`}>Ver mis casos activos</Link>
+      <Link href={`/Medico`}>Iniciar sesion</Link>
     </div>
    
   );
