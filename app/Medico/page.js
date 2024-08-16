@@ -2,6 +2,7 @@
 import "./medico.css";
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'; // Si estás usando Next.js
+import Link from "next/link";
 
 export default function Medico() {
   const router = useRouter(); // Hook para redirección en Next.js
@@ -74,6 +75,7 @@ export default function Medico() {
                 />
                 <input type="submit" value="Entrar" className="submit-button" />
             </form>
+            <Link href={`/Medico/sesion`}>Recuperar contraseña</Link>
             <h5>{devolver}</h5>
 
         </div>
