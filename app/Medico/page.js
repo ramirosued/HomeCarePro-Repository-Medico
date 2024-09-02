@@ -46,14 +46,21 @@ export default function Medico() {
                     }
                 }
             } else {
+
                 console.error('Error en la solicitud:', response.statusText);
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
+
         }
     };
 
+    const enviarCodigo = async (e) => {
+        const response = await fetch(`http://localhost:5000/medicoooo/codigo`)
+
+    }
     return (
+        <div className="bodyprincipal">
         <div className="login-container">
             <h1 className="titulo">Iniciar sesión</h1>
             <form id="loginForm" className="login-form" onSubmit={verificar}>
@@ -76,8 +83,11 @@ export default function Medico() {
                 <input type="submit" value="Entrar" className="submit-button" />
             </form>
             <Link href={`/Medico/sesion`}>Recuperar contraseña</Link>
-            <h5>{devolver}</h5>
+            <h5 className="mensaje">{devolver}</h5>
 
+            <button onClick={enviarCodigo}>Enviar código</button>
+
+        </div>
         </div>
     );
 }
