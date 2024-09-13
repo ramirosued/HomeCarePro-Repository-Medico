@@ -13,7 +13,7 @@ export default function Caso() {
   useEffect(() => {
     async function fetchCaso() {
       try {
-        const response = await fetch(`http://localhost:5000/medico/${params.medicoId}`); // Asegúrate de usar params.casoId si es necesario
+        const response = await fetch(`http://localhost:5000/medicos/${params.medicoId}`); // Asegúrate de usar params.casoId si es necesario
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }

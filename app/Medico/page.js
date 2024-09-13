@@ -56,8 +56,12 @@ export default function Medico() {
     };
 
     const enviarCodigo = async (e) => {
-        const response = await fetch(`http://localhost:5000/medicoooo/codigo`)
-
+        const response = await fetch(`http://localhost:5000/medicoooo/codigo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
     }
     return (
         <div className="bodyprincipal">
