@@ -45,7 +45,9 @@ export default function Devolucion() {
         }
     };
     
-
+const volver = async()=>{
+    router.back();
+}
     return (
         <>
             <h1>Devoluciones anteriores</h1>
@@ -75,6 +77,8 @@ export default function Devolucion() {
                 />
                 <input type="submit" value="Agregar Devolución" />
             </form>
+
+            <button onClick={volver}>volver</button>
         </>
     );
 }
