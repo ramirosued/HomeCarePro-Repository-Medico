@@ -7,11 +7,16 @@ table {
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
+    word-break: break-word;
 }
 
 th {
     background-color: #f4f4f4;
+}
+
+td{
+    text-align: left;
 }
 
 form {

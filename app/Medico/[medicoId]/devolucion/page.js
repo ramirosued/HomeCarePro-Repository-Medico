@@ -1,4 +1,6 @@
 "use client";
+import "./devolucion.css";
+
 import { useParams,useRouter  } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -77,8 +79,7 @@ const volver = async()=>{
                 />
                 <input type="submit" value="Agregar Devolución" />
             </form>
-
-            <button onClick={volver}>volver</button>
+           <button onClick={volver}>volver</button>
         </>
     );
 }
