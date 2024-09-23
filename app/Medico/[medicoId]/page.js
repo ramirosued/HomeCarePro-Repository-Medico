@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useRouter } from 'next/router';
 import { useState, useEffect } from "react";
 import styles from './medico.module.css'; // Asegúrate de importar el CSS Module
 
@@ -33,6 +34,33 @@ export default function Caso() {
   console.log(id)
   };
 
+  const botonCerrarCaso = async(IdCaso) =>{
+    console.log(IdCaso)
+    const responde= await fetch(`http://localhost:5000/casos/solicitar/${IdCaso}`, {
+    method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+          })
+          async function fetchCaso() {
+            try {
+              const response = await fetch(`http://localhost:5000/medicos/${params.medicoId}`); // Asegúrate de usar params.casoId si es necesario
+              if (!response.ok) {
+                throw new Error("Error al obtener los datos");
+              }
+              const data = await response.json();
+              console.log(data);
+      
+              setMedico(data);
+            } catch (error) {
+              console.error("Error al obtener el caso:", error);
+            }
+          }
+          fetchCaso();
+
+  }
+
+
   return (
     <main>
       <div>
@@ -43,9 +71,18 @@ export default function Caso() {
                 <h5>Nombre Paciente: {item.Nombre}</h5>
               <h5>Apellido Paciente: {item.Apellido}</h5>
               <h5>Direccion Paciente: {item.Direccion}</h5>
-              
+              {item.IdSituacion === 2 ? (
+                <Link href={`/Medico/${item.IdCaso}/devolucion/`} className={styles.devolucionLink}>
+                  Dar Devolución
+                </Link>
+              ) : (
+                <button disabled className={styles.disabledButton}>
+                  No se puede dar devolución
+                </button>
+              )}
               <Link href={`/Medico/${item.IdCaso}/devolucion/`}>Dar Devolución</Link>
               <button onClick={() => toggleInfo(item.IdPaciente)}>Más info</button>
+              <button onClick={ () => botonCerrarCaso(item.IdCaso)}  >Solicitar cierre de caso</button> 
               
               {selectedPatientId === item.IdPaciente && (
                 <div className={styles.masInfo}>
