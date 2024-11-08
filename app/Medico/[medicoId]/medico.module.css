@@ -22,3 +22,8 @@
     background-color: #f9f9f9; /* Fondo ligeramente gris para el contenido */
   }
   
+  .h2{
+    display: flex;
+    justify-content: center;
+    color: red;
+  }
