@@ -74,29 +74,29 @@ export default function Caso() {
               {item.IdSituacion === 2 ? (
                 <>
                 <Link href={`/Medico/${item.IdCaso}/devolucion/`} className={styles.devolucionLink}>
-                  Dar Devolución
+                  Ver devolución
                 </Link>
                 <button onClick={() => toggleInfo(item.IdPaciente)}>Más info</button>
                 <button onClick={ () => botonCerrarCaso(item.IdCaso)}  >Solicitar cierre de caso</button> 
                   </>
               ) : item.IdSituacion ===1 ? (
                 <>
-                <button disabled className={styles.disabledButton}>
-                  No se puede dar devolución
-                </button>
+                 <Link href={`/Medico/${item.IdCaso}/devolucion/`} className={styles.devolucionLink}>
+                  Ver devolución
+                </Link>
                 <button onClick={() => toggleInfo(item.IdPaciente)}>Más info</button>
                 <h2 className={styles.h2}>Caso cerrado</h2>
                 </>
               ) :(
                 <>
-                <button disabled className={styles.disabledButton}>
-                  No se puede dar devolución
-                </button>
+               <Link href={`/Medico/${item.IdCaso}/devolucion/`} className={styles.devolucionLink}>
+                  Ver devolución
+                </Link>
                 <button onClick={() => toggleInfo(item.IdPaciente)}>Más info</button>
                 <h2 className={styles.h2}>Solicitado para cerrar</h2>
 
                 </>
-                            )
+                )
               }
               
               

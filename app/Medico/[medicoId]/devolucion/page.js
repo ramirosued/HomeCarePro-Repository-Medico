@@ -1,14 +1,15 @@
 "use client";
 import "./devolucion.css";
 
-import { useParams,useRouter  } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Devolucion() {
     const params = useParams();
     const router = useRouter(); // Importa useRouter para la redirección
-
     const [devoluciones, setDevoluciones] = useState([]);
+    const [situacion, setSituacion] = useState(null); // Estado para guardar la situación actual
+
     console.log(params);
 
     useEffect(() => {
@@ -19,7 +20,14 @@ export default function Devolucion() {
                     throw new Error("Error al obtener los datos");
                 }
                 const data = await response.json();
+                console.log(data);
+
                 setDevoluciones(data);
+
+                // Suponiendo que la respuesta tiene una propiedad 'IdSituacion'
+                if (data.length > 0) {
+                    setSituacion(data[0].IdSituacion); // Guardar la primera situación
+                }
             } catch (error) {
                 console.error("Error al obtener los casos:", error);
             }
@@ -28,58 +36,77 @@ export default function Devolucion() {
     }, [params.medicoId]);
 
     const handleSubmit = async (e) => {
-    
-        const descripcion = e.target.descripcion.value; // Obtener el valor de la descripción
-    
-        const response = await fetch(`http://localhost:5000/medico/${params.medicoId}/devolucionn`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ descripcion }) // Enviar la descripción en el cuerpo de la solicitud
-        });
-    
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result);
-        } else {
-            console.error('Error en la solicitud:', response.statusText);
-        }
+        e.preventDefault();
+        router.push(`/Medico/${params.medicoId}/codigo`);
     };
-    
-const volver = async()=>{
-    router.back();
-}
+
+    const volver = async () => {
+        router.back();
+    };
+
     return (
-        <>
-            <h1>Devoluciones anteriores</h1>
-            <table>
+        <div className="devolucion-container">
+            <h1 className="devolucion-title">Devoluciones anteriores</h1>
+            <table className="devolucion-table">
                 <thead>
                     <tr>
-                        <th>Devolución</th>
-                        <th>Fecha</th>
+                        <th className="devolucion-table-header">Devolución</th>
+                        <th className="devolucion-table-header">Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {devoluciones.map((devolucion) => (
-                        <tr key={devolucion.id}>
-                            <td>{devolucion.Descripcion}</td>
-                            <td>{devolucion.Fecha}</td>
-                        </tr>
-                    ))}
+                    {devoluciones.map((devolucion) => {
+                        // Crear un objeto Date con la fecha
+                        const fecha = new Date(devolucion.Fecha);
+
+                        // Obtener el día, mes y año
+                        const dia = fecha.getDate(); // Obtener el día del mes
+                        const mes = fecha.getMonth() + 1; // Obtener el mes (sumar 1 porque enero es 0)
+                        const año = fecha.getFullYear(); // Obtener el año completo
+
+                        // Formatear la fecha: Día/Mes/Año
+                        const fechaFormateada = `${dia}/${mes}/${año}`;
+
+                        return (
+                            <tr key={devolucion.id}>
+                                <td className="devolucion-description">{devolucion.Descripcion}</td>
+                                <td className="devolucion-date">{fechaFormateada}</td> {/* Mostrar la fecha en formato día/mes/año */}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
-            <form id="devolucionForm" onSubmit={handleSubmit}>
-                <label htmlFor="descripcion">Descripción:</label>
-                <input
-                    type="text"
-                    id="descripcion"
-                    name="descripcion"
-                    required
-                />
-                <input type="submit" value="Agregar Devolución" />
-            </form>
-           <button onClick={volver}>volver</button>
-        </>
+
+            {/* Verificar la situación y mostrar el formulario adecuado */}
+            {situacion === 2 ? (
+                <form className="devolucion-form" id="devolucionForm" onSubmit={handleSubmit}>
+                    <input className="devolucion-submit" type="submit" value="Agregar Devolución" />
+                </form>
+            ) : situacion === 1 ? (
+                <>
+                    <form className="devolucion-form">
+                        <input
+                            className="devolucion-submit"
+                            type="submit"
+                            value="Agregar Devolución"
+                            disabled={true} // Deshabilitar el botón
+                        />
+                    </form>
+                    <p className="devolucion-status">Caso cerrado</p>
+                </>
+            ) : (
+                <>
+                    <form className="devolucion-form">
+                        <input
+                            className="devolucion-submit"
+                            type="submit"
+                            value="Agregar Devolución"
+                            disabled={true} // Deshabilitar el botón
+                        />
+                    </form>
+                    <p className="devolucion-status">Caso solicitado para el cierre</p>
+                </>
+            )}
+        </div>
     );
 }

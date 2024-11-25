@@ -1,0 +1,110 @@
+/* Estilo general del body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fb;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.devolucion-container{
+    margin: 0px;
+}
+/* Contenedor principal */
+.container {
+    max-width: 480px; /* Limitando el tamaño del contenedor en pantallas más grandes */
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Títulos */
+h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formulario principal */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Campo de texto para ingresar el código */
+input[type="text"] {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #007BFF; /* Azul al enfocar el input */
+}
+
+/* Botones */
+.verificar {
+    font-size: 16px;
+    background-color: #007BFF; /* Color azul */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Hacer que los botones ocupen todo el ancho */
+    margin-top: 10px;
+}
+
+.verificar:hover:enabled {
+    background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+}
+
+.verificar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Mensajes de error */
+p {
+    color: #f44336;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Mensajes de éxito */
+.success-message {
+    color: #4CAF50;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    input[type="text"], button {
+        font-size: 14px;
+    }
+
+    .verificar {
+        padding: 10px;
+    }
+}
