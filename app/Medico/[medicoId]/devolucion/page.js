@@ -40,8 +40,8 @@ export default function Devolucion() {
         router.push(`/Medico/${params.medicoId}/codigo`);
     };
 
-    const volver = async () => {
-        router.back();
+    const volver = async (idPrestador) => {
+        router.push(`/Medico/${idPrestador}`);
     };
 
     return (
@@ -107,6 +107,9 @@ export default function Devolucion() {
                     <p className="devolucion-status">Caso solicitado para el cierre</p>
                 </>
             )}
+            <button onClick={() => volver(devoluciones[0]?.IdPrestador)} className="devolucion-back-button">
+                Volver
+            </button>
         </div>
     );
 }
